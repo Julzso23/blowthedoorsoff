@@ -24,6 +24,9 @@ end
 function Player:setRotation(angle)
 	self.shape:setRotation(angle)
 end
+function Player:getRotation()
+	return self.shape:rotation()
+end
 
 function Player:draw()
 	love.graphics.setColor(255, 255, 255, 255)
