@@ -5,13 +5,13 @@ Bullet = class('Bullet')
 Bullet.speed = 1000
 
 function Bullet:initialize(x, y, r)
-	self.shape = collision.collider:addRectangle(x, y, 2, 4)
+	self.shape = collision.collider:addRectangle(x, y, 4, 2)
 	self.shape:setRotation(r)
 	self.shape.isBullet = true
 	self.shape.parent = self
 	self.velocity = {}
 	self.velocity.x = Bullet.speed * math.cos(r)
-	self.velocity.y = Bullet.speed * math.cos(r)
+	self.velocity.y = Bullet.speed * math.sin(r)
 	self.destroyed = false
 end
 
