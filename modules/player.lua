@@ -5,6 +5,7 @@ Player = class('Player')
 
 function Player:initialize()
 	self.shape = collision.collider:addRectangle(0, 0, 64, 64)
+	self.shape.isPlayer = true
 end
 
 function Player:move(x, y)
