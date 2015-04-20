@@ -23,7 +23,7 @@ function love.update(dt)
 		player:move(0, 200 * dt)
 	end
 
-	player:setRotation(math.atan((love.mouse.getY() - player:getPosition().y) / (love.mouse.getX() - player:getPosition().x)))
+	player:rotateTowards(love.mouse.getX(), love.mouse.getY())
 
 	for k, v in pairs(bullets) do
 		v:update(dt)

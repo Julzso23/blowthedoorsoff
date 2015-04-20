@@ -28,6 +28,16 @@ end
 function Player:getRotation()
 	return self.shape:rotation()
 end
+function Player:rotateTowards(x, y)
+	local px, py = self.shape:center()
+	if (y > py) and (x > px) then
+		self.shape:setRotation(math.atan((y - py) / (x - px)))
+	elseif x < px then
+		self.shape:setRotation(math.atan((y - py) / (x - px)) + math.pi)
+	elseif (y < py) and (x > px) then
+		self.shape:setRotation(math.atan((y - py) / (x - px)) + 2 * math.pi)
+	end
+end
 
 function Player:draw()
 	love.graphics.setColor(255, 255, 255, 255)
