@@ -50,6 +50,6 @@ end
 
 function love.mousepressed(x, y, button)
 	if button == 'l' then
-		table.insert(bullets, Bullet:new(player:getPosition().x, player:getPosition().y, player:getRotation()))
+		table.insert(bullets, Bullet:new(player:getPosition().x + 32 * math.cos(player:getRotation()), player:getPosition().y + 32 * math.sin(player:getRotation()), player:getRotation()))
 	end
 end
