@@ -5,7 +5,7 @@ function collision.start(dt, shapeA, shapeB, dx, dy)
 	if shapeA.isPlayer then
 		shapeA:move(dx, dy)
 	elseif shapeB.isPlayer then
-		shapeB:move(dx, dy)
+		shapeB:move(-dx, -dy)
 	end
 
 	if shapeA.isBullet then
