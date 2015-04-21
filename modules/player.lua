@@ -1,11 +1,26 @@
 local class = require('lib/middleclass')
 require('modules/collision')
+require('modules/animation')
 
 Player = class('Player')
 
 function Player:initialize()
-	self.shape = collision.collider:addRectangle(0, 0, 64, 64)
+	self.shape = collision.collider:addRectangle(0, 0, 96, 96)
 	self.shape.isPlayer = true
+
+	self.legAnimations = {}
+	self.legAnimations.idle = Animation:new('player/feet/idle.png', 132, 0.05)
+	self.legAnimations.walk = Animation:new('player/feet/walk.png', 172, 0.05)
+	self.legAnimations.strafeLeft = Animation:new('player/feet/strafe-left.png', 155, 0.05)
+	self.legAnimations.strafeRight = Animation:new('player/feet/strafe-right.png', 154, 0.05)
+
+	self.torsoAnimations = {}
+	self.torsoAnimations.idle = Animation:new('player/handgun/idle.png', 253, 0.05)
+	self.torsoAnimations.move = Animation:new('player/handgun/move.png', 258, 0.05)
+	self.torsoAnimations.shoot = Animation:new('player/handgun/shoot.png', 255, 0.05)
+
+	self.legState = 'idle'
+	self.torsoState = 'idle'
 end
 
 function Player:move(x, y)
@@ -39,7 +54,27 @@ function Player:rotateTowards(x, y)
 	end
 end
 
+function Player:setState(part, state)
+	if part == 'leg' then
+		self.legState = state
+	elseif part == 'torso' and self.torsoState ~= 'shoot' then
+		self.torsoState = state
+	end
+end
+
+function Player:update(dt)
+	self.legAnimations[self.legState]:update(dt)
+	if self.torsoState == 'shoot' then
+		if self.torsoAnimations[self.torsoState]:update(dt) then
+			self.torsoState = 'idle'
+		end
+	else
+		self.torsoAnimations[self.torsoState]:update(dt)
+	end
+end
+
 function Player:draw()
-	love.graphics.setColor(255, 255, 255, 255)
-	self.shape:draw('fill')
+	local x, y = self.shape:center()
+	self.legAnimations[self.legState]:draw(x, y, self.shape:rotation())
+	self.torsoAnimations[self.torsoState]:draw(x, y, self.shape:rotation())
 end

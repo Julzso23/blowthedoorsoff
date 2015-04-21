@@ -11,6 +11,8 @@ function Animation:initialize(path, width, period)
 	self.curQuad = 1
 	self.timer = 0
 	self.period = period
+	self.width = width
+	self.height = self.img:getHeight()
 end
 
 function Animation:update(dt)
@@ -19,13 +21,15 @@ function Animation:update(dt)
 		self.timer = 0
 		if self.curQuad == #self.quads then
 			self.curQuad = 1
+			return true
 		else
 			self.curQuad = self.curQuad + 1
+			return false
 		end
 	end
 end
 
-function Animation:draw(x, y)
+function Animation:draw(x, y, r)
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.draw(self.img, self.quads[self.curQuad], x, y)
+	love.graphics.draw(self.img, self.quads[self.curQuad], x, y, r, 0.5, 0.5, self.width / 2, self.height / 2)
 end
